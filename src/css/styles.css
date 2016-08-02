@@ -1,0 +1,9 @@
+/*
+	This contains some global rules
+ */
+
+body, html {
+	background-color: #c00;
+	color: #000;
+	font-size:2em;
+}

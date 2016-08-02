@@ -1,11 +1,18 @@
 var path = require("path");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var webpack = require("webpack");
 
 module.exports = {
 	context: path.resolve(__dirname, "src"),
+	devServer: {
+
+	},
 	devtool: "source-map",
 	entry: [
-		"webpack-dev-server/client?http://localhost:8080",
-		"app"
+		//"webpack-dev-server/client?http://localhost:8080",
+		"webpack-dev-server/client?http://localhost:8080/",
+		"webpack/hot/dev-server",
+		"js/app"
 	],
 	module: {
         preLoaders: [
@@ -14,15 +21,28 @@ module.exports = {
                 exclude: /node_modules/, // exclude any and all files in the node_modules folder
                 loader: "jshint-loader"
             }
+        ],
+        loaders: [
+        	{ 
+        		test: /\.css$/, 
+        		// Use loader 1 to use Hot Module Replacement (HMR)
+        		// Use loader 2 to extract the css file so it is included regularly
+        		//loader: ExtractTextPlugin.extract("style-loader", "css-loader") 
+        		loader: "style-loader!css-loader"
+        	}
         ]
     },
 	output: {
 		path: path.resolve(__dirname, "build"),
-		publicPath: "/build/",
+		publicPath: "/",
 		filename: "bundle.js"
 	},
+	plugins: [
+		new ExtractTextPlugin("css/styles.css"),
+		new webpack.HotModuleReplacementPlugin()
+	],
 	resolve: {
-		root: path.resolve("./src/js")
+		root: path.resolve("./src")
 	},
 
 	// JSHint enforcing options

@@ -2,6 +2,7 @@ var gulp = require("gulp"),
 	gutil = require("gulp-util"),
 	webpack = require("webpack"),
 	clean = require("gulp-clean"),
+	runSequence = require("run-sequence"),
 	webpack_stream = require("webpack-stream"),
 	WebpackDevServer = require("webpack-dev-server"),
 	webpackConfig = require("./webpack.config.js");
@@ -32,21 +33,29 @@ gulp.task("webpack-dev-server", function(callback) {
 	myConfig.devtool = "eval";
 	myConfig.debug = true;
 
-	// Start a webpack-dev-server
-	new WebpackDevServer(webpack(myConfig), {
+	var options = {
 		contentBase: myConfig.output.path,
-		publicPath: myConfig.output.publicPath,
+		publicPath: "http://localhost:8080/",
 		stats: {
 			colors: true
-		}
-	}).listen(8080, "localhost", function(err) {
-		if(err) throw new gutil.PluginError("webpack-dev-server", err);
-		gutil.log("[webpack-dev-server]", "http://localhost:8080/webpack-dev-server/index.html");
-	});
+		},
+		hot: true
+	};
+
+	// Start a webpack-dev-server
+	new WebpackDevServer(webpack(myConfig), options)
+			.listen(8080, "localhost", function(err) {
+				if(err) throw new gutil.PluginError("webpack-dev-server", err);
+				gutil.log("[webpack-dev-server]", JSON.stringify(options));
+			});
 });
 
 gulp.task("build", ["html", "webpack"]);
 
 gulp.task("serve", ["webpack-dev-server"]);
+
+gulp.task("build-and-serve", function() {
+	return runSequence("build", "serve");
+});
 
 gulp.task('default', ["build"]);
