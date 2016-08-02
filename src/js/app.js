@@ -1,5 +1,5 @@
 // Including CSS
-require("css/styles.css");
+require("css/styles.scss");
 
 // Requiring another module
 var test1 = require("js/test1");

@@ -1,0 +1,11 @@
+/*
+	This contains some global rules
+ */
+
+@import "colors";
+@import "sizes"
+
+body, html 
+	background-color: $background-color;
+	color: $text-color;
+	font-size: $font-size;

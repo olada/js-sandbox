@@ -1,6 +1,7 @@
 var path = require("path");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var webpack = require("webpack");
+var autoprefixer = require("autoprefixer");
 
 module.exports = {
 	context: path.resolve(__dirname, "src"),
@@ -24,11 +25,11 @@ module.exports = {
         ],
         loaders: [
         	{ 
-        		test: /\.css$/, 
+        		test: /\.scss$/, 
         		// Use loader 1 to use Hot Module Replacement (HMR)
         		// Use loader 2 to extract the css file so it is included regularly
-        		//loader: ExtractTextPlugin.extract("style-loader", "css-loader") 
-        		loader: "style-loader!css-loader"
+        		//loader: ExtractTextPlugin.extract("style-loader", "css-loader", "postcss-loader", "sass-loader") 
+        		loader: "style-loader!css-loader!postcss-loader!sass-loader?indentedSyntax"
         	}
         ]
     },
@@ -37,8 +38,11 @@ module.exports = {
 		publicPath: "/",
 		filename: "bundle.js"
 	},
+	/*postcss: function() {
+		return [autoprefixer];
+	},*/
 	plugins: [
-		new ExtractTextPlugin("css/styles.css"),
+		new ExtractTextPlugin("styles.css"),
 		new webpack.HotModuleReplacementPlugin()
 	],
 	resolve: {
