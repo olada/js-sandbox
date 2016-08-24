@@ -10,6 +10,6 @@ How-To:
 * npm install webpack -g
 * npm install webpack-dev-server -g
 * git clone this repo
-*   run npm install
+*       run npm install
 * run <gulp serve-and-build>
 * 
