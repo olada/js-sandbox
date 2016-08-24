@@ -35,7 +35,7 @@ gulp.task("webpack-dev-server", function(callback) {
 
 	var options = {
 		contentBase: myConfig.output.path,
-		publicPath: "http://localhost:8080/",
+		publicPath: "http://localhost:1337/",
 		stats: {
 			colors: true
 		},
@@ -44,7 +44,7 @@ gulp.task("webpack-dev-server", function(callback) {
 
 	// Start a webpack-dev-server
 	new WebpackDevServer(webpack(myConfig), options)
-			.listen(8080, "localhost", function(err) {
+			.listen(1337, "localhost", function(err) {
 				if(err) throw new gutil.PluginError("webpack-dev-server", err);
 				gutil.log("[webpack-dev-server]", JSON.stringify(options));
 			});
