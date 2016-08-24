@@ -9,7 +9,7 @@ How-To:
 * npm install gulp -g
 * npm install webpack -g
 * npm install webpack-dev-server -g
-* git clone <this repo>
-* run <npm install>
+* git clone this repo
+*   run npm install
 * run <gulp serve-and-build>
 * 
