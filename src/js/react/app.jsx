@@ -7,7 +7,5 @@ import {render} from "react-dom";
 // Components
 import App from "components/app";
 
-console.log("hello world");
-
 render(<App />, document.getElementById("app"));
 

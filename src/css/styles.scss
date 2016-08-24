@@ -2,10 +2,26 @@
 	This contains some global rules
  */
 
-@import "colors";
+@import "colors"
 @import "sizes"
 
 body, html 
-	background-color: $background-color;
-	color: $text-color;
-	font-size: $font-size;
+	background-color: $background-color
+	color: $text-color
+	font-size: $font-size
+
+div#app
+	width: 90%
+	height: 500px
+	margin: 10px auto
+	border-radius: 10px 50px
+	background-color: $app-background
+	border: 1px $app-border solid
+
+.centered
+    margin: 0 auto
+
+nav
+	width: 40em
+	margin: 1em auto
+	display: block
