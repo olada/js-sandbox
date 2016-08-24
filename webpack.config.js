@@ -11,9 +11,9 @@ module.exports = {
 	devtool: "source-map",
 	entry: [
 		//"webpack-dev-server/client?http://localhost:8080",
-		"webpack-dev-server/client?http://localhost:8080/",
+		"webpack-dev-server/client?http://localhost:1337/",
 		"webpack/hot/dev-server",
-		"js/app"
+		"js/react/app.jsx"
 	],
 	module: {
         preLoaders: [
@@ -30,6 +30,12 @@ module.exports = {
         		// Use loader 2 to extract the css file so it is included regularly
         		//loader: ExtractTextPlugin.extract("style-loader", "css-loader", "postcss-loader", "sass-loader") 
         		loader: "style-loader!css-loader!postcss-loader!sass-loader?indentedSyntax"
+        	},
+        	{
+        		test: /\.jsx?/,
+        		//include: path.resolve(".src/js"),
+        		exclude: /node_modules/,
+        		loader: "babel-loader"
         	}
         ]
     },
@@ -46,7 +52,11 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin()
 	],
 	resolve: {
-		root: path.resolve("./src")
+		root: [
+			path.resolve("./src"),
+			path.resolve("./src/js/react")
+		],
+		extensions: ['', '.js', '.jsx']
 	},
 
 	// JSHint enforcing options
@@ -82,6 +92,9 @@ module.exports = {
 		// logging poor-man's debugging: console, alert, etc. 
 		// It is usually a good idea to not ship them in production because, 
 		// for example, console.log breaks in legacy versions of Internet Explorer.
-		devel: true
+		devel: true,
+
+		// This option is used to specify the ECMAScript version to which the code must adhere. 
+		esversion: 6
 	}
 }
