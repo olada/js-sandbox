@@ -25,6 +25,13 @@ module.exports = {
         ],
         loaders: [
         	{ 
+        		test: /\.css$/, 
+        		// Use loader 1 to use Hot Module Replacement (HMR)
+        		// Use loader 2 to extract the css file so it is included regularly
+        		//loader: ExtractTextPlugin.extract("style-loader", "css-loader", "postcss-loader", "sass-loader") 
+        		loader: "style-loader!css-loader!postcss-loader"
+        	},
+        	{ 
         		test: /\.scss$/, 
         		// Use loader 1 to use Hot Module Replacement (HMR)
         		// Use loader 2 to extract the css file so it is included regularly

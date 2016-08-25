@@ -1,5 +1,6 @@
 // Including CSS
 require("css/styles.scss");
+require('rc-slider/assets/index.css');
 
 import React from "react"; // Because JSX is translated into React.<API> calls
 import {render} from "react-dom";
