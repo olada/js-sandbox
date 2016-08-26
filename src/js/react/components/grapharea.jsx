@@ -7,6 +7,11 @@ import AppStore from "stores/appstore";
 import * as Action from "constants/actions";
 import * as Constants from "constants";
 
+var series_keys = {
+	einkommen_kumulativ: 0,
+	einkommen_monat: 0
+}
+
 var GraphArea = React.createClass({
 
 	getInitialState: function() {
@@ -19,14 +24,29 @@ var GraphArea = React.createClass({
 					text: '<strong style="color:#fc0;">Cofinpro</strong> Coding Dojo',
 					useHTML: true
 				},
-			  	series: [{
-				    type: 'spline',
-				    name: 'Average',
-				    data: []
-				}],
+			  	series: [
+				  	{
+					    type: 'spline',
+					    name: 'Einkommen kum.',
+					    data: []
+					},
+					{
+						type: 'spline',
+						name: 'Einkommen mtl.',
+						data: []
+					}
+				],
+				tooltip: {
+					formatter: function() {
+						return "Monat " + this.x;
+					}
+				},
 				xAxis: {
 					allowDecimals: false,
-					max: 1
+					max: 1,
+					title: {
+						text: 'Monate'
+					}
 				}
 			}
 		};
@@ -44,19 +64,32 @@ var GraphArea = React.createClass({
 
 	onChange: function() {
 
-		let data_cumulative_income = _.range(0, parseInt(AppStore.get("laufzeit"))+1).map(function(index, value) {
+		this.updateEinkommenKumulativ();
+		this.updateEinkommenMonatlich();
+
+		// Set X-Axis maximum
+		this.state.chart_config.xAxis.max = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
+
+		this.forceUpdate();
+	},
+
+	updateEinkommenKumulativ: function() {
+		let anzahl_monate = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
+
+		// + 1, weil das Array bei 0 beginnt
+		let data_cumulative_income = _.range(0, anzahl_monate + 1).map(function(index, value) {
 			let item = Math.floor(
 				value * parseInt(AppStore.get("monat_netto"))
 					  * Math.pow(AppStore.get("jahreszins") / 100 + 1, index)
 			);
 			return item;
 		});
-		this.state.chart_config.series[0].data = data_cumulative_income;
+		this.state.chart_config.series[series_keys.einkommen_kumulativ].data = data_cumulative_income;
+	},
 
-		// Set X-Axis maximum
-		this.state.chart_config.xAxis.max = parseInt(AppStore.get("laufzeit"));
-
-		this.forceUpdate();
+	updateEinkommenMonatlich: function() {
+		let data_einkommen_monat = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
+		console.log(data_einkommen_monat);
 	},
 
 	render: function() {

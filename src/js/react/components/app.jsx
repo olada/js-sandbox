@@ -11,8 +11,8 @@ var App = React.createClass({
 	getInitialState: function() {
 	    return {
 	          active: 1,
-	          [Constants.INPUT_MONAT_NETTO]: "",
-	          [Constants.INPUT_MONAT_AUSGABEN]: ""
+	          monat_netto: 0,
+	          monat_ausgaben: 0
 	    };
 	},
 
