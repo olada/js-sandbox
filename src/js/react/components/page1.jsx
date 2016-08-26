@@ -6,7 +6,7 @@ import assign from 'object-assign';
 import AppDispatcher from "dispatcher/appdispatcher";
 import AppStore from "stores/appstore";
 import * as Action from "constants/actions";
-import * as Constants from "constants";
+import * as Constants from "constants/constants";
 import * as Validator from "util/validators";
 
 import App from "components/app"
@@ -55,7 +55,7 @@ var Page1 = React.createClass({
 
     onChildrenChange: function(event) {
 		this.setState({children: AppStore.getChildren()});
-        console.log('changedChildren', this.state.children);
+        console.log('children', AppStore.getChildren());
 	},
 
 	onChangeValue: function(event) {
@@ -71,6 +71,14 @@ var Page1 = React.createClass({
             action: Action.MOD_CHILDREN,
             key: event.target.id,
             value: event.target.value
+        })
+    },
+
+    onChangeChildAge: function(event) {
+        AppDispatcher.dispatch({
+            action: Action.MOD_CHILDREN_AGE,
+            index: event.target.id,
+            age: event.target.value
         })
     },
 
@@ -101,7 +109,9 @@ var Page1 = React.createClass({
 	},
 
 	render: function() {
-		return (
+        var that = this;
+
+        return (
 			<Grid>
 				<Row>
 					<Col md={5}>
@@ -134,19 +144,25 @@ var Page1 = React.createClass({
 					<Col md={5}>
 						<FormGroup controlId={Constants.INPUT_CHILDREN}>
 							<ControlLabel>Anzahl Kinder im Haushalt</ControlLabel>
-							<FormControl type="text" onChange={this.onChangeChildren} />
+							<FormControl type="text" value={this.state.children.length} onChange={this.onChangeChildren} />
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>
 				</Row>
 				<Row>
+                    <Col md={5} mdOffset={1}>
                     {this.state.children.map(function(children, i) {
                         return (
-                        <div key={i}>
-                            {i}
-                        </div>
+                            <Row key={'Child'+i}>
+                                    <FormGroup controlId={i.toString()}>
+                                        <ControlLabel>Alter Kind {i+1}</ControlLabel>
+                                        <FormControl type="text" value={children.age} onChange={that.onChangeChildAge} />
+                                        <FormControl.Feedback />
+                                    </FormGroup>
+                            </Row>
                             );
                         })}
+                    </Col>
 				</Row>
 			</Grid>
 		)

@@ -35,7 +35,9 @@ let AppStore = assign({}, EventEmitter.prototype, {
 		values[key] = value;
 		console.log(values);
 	},
-
+    setChildAge: function(index, value) {
+        children[index].age = value;
+    },
 	addChangeListener: function(action, callback) {
 		this.on(action, callback);
 	},
@@ -62,11 +64,16 @@ AppDispatcher.register(function(payload) {
             var countChildren = payload.value;
             children = [];
             while (countChildren > 0) {
-                var child = {age: 0};
+                var child = {age: 1};
                 children.push(child);
                 countChildren--;
             }
             AppStore.set('children', children);
+            AppStore.emitChange(Action.MOD_CHILDREN);
+            break;
+        case Action.MOD_CHILDREN_AGE:
+            console.log(payload);
+            AppStore.setChildAge(payload.index, payload.age);
             AppStore.emitChange(Action.MOD_CHILDREN);
             break;
 	}

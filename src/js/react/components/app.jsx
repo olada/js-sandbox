@@ -4,7 +4,7 @@ import {Grid, Row, Col, LinkContainer} from "react-router-bootstrap";
 import Page1 from "components/page1";
 import Page2 from "components/page2";
 import GraphArea from "components/grapharea";
-import * as Constants from "constants";
+import * as Constants from "constants/constants";
 
 var App = React.createClass({
 
