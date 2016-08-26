@@ -1,6 +1,7 @@
 import React from "react";
 import {Grid, Col, Row, FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import Slider from "rc-slider";
+import assign from 'object-assign';
 
 import AppDispatcher from "dispatcher/appdispatcher";
 import AppStore from "stores/appstore";
@@ -17,9 +18,12 @@ var Page1 = React.createClass({
 		// FormControl is changing an uncontrolled input of type text to be controlled. 
 		// Input elements should not switch from uncontrolled to controlled (or vice versa)
 		return {
-			[Constants.INPUT_MONAT_NETTO]: 0,
-			[Constants.INPUT_MONAT_AUSGABEN]: 0,
-			[Constants.INPUT_FREI_VERFUEGBAR_ABS]: 0
+			monat_netto: 0,
+			monat_ausgaben: 0,
+			frei_verfuegbar_abs: 0,
+			frei_verfuegbar_percent: 0,
+			frei_verfuegbar_max: 0,
+			frei_verfuegbar_set: false
 		}
 	},
 
@@ -30,8 +34,17 @@ var Page1 = React.createClass({
 	},
 
 	readStates: function() {
-		this.state = AppStore.getAll();
+		this.state = assign(this.state, AppStore.getAll());
+		this.updateFreiVerfuegbar();
 		console.log(this.state);
+	},
+
+	updateFreiVerfuegbar: function() {
+		console.log("called");
+		if (this.state.monat_netto > 0) {
+			this.state.frei_verfuegbar_max = 
+				this.state.monat_netto - this.state.monat_ausgaben;
+		}
 	},
 
 	onBasiswertChange: function() {
@@ -44,11 +57,11 @@ var Page1 = React.createClass({
 			action: Action.MOD_BASISWERT,
 			key: event.target.id,
 			value: event.target.value
-		})
+		});
 	},
 
 	validateEinkommen: function() {
-		if (Validator.validatePositiveInteger(this.state[Constants.INPUT_MONAT_NETTO])){
+		if (Validator.validatePositiveInteger(this.state.monat_netto)){
 			return "success";
 		} else {
 			return "error";
@@ -56,7 +69,8 @@ var Page1 = React.createClass({
 	},
 
 	validateAusgaben: function() {
-		if (Validator.validatePositiveInteger(this.state[Constants.INPUT_MONAT_AUSGABEN])){
+		if (Validator.validatePositiveInteger(this.state.monat_ausgaben) &&
+			parseInt(this.state.monat_ausgaben) <= parseInt(this.state.monat_netto)){
 			return "success";
 		} else {
 			return "error";
@@ -64,8 +78,8 @@ var Page1 = React.createClass({
 	},
 
 	validateVerfuegbaresEinkommen: function() {
-		if (Validator.validatePositiveInteger(this.state[Constants.INPUT_FREI_VERFUEGBAR_ABS])
-			&& this.state[Constants.INPUT_FREI_VERFUEGBAR_ABS] <= this.state[Constants.INPUT_FREI_VERFUEGBAR_MAX]) {
+		if (Validator.validatePositiveInteger(this.state.frei_verfuegbar_abs)
+			&& parseInt(this.state.frei_verfuegbar_abs) <= parseInt(this.state.frei_verfuegbar_max)) {
 			return "success";
 		} else {
 			return "error";
@@ -77,31 +91,29 @@ var Page1 = React.createClass({
 			<Grid>
 				<Row>
 					<Col md={5}>
-						<FormGroup controlId={Constants.INPUT_MONAT_NETTO} validationState={this.validateEinkommen()}>
+						<FormGroup controlId="monat_netto" validationState={this.validateEinkommen()}>
 							<ControlLabel>Monatliches Einkommen</ControlLabel>
-							<FormControl type="text" value={this.state[Constants.INPUT_MONAT_NETTO]} onChange={this.onChangeValue} />
+							<FormControl type="text" value={this.state.monat_netto} onChange={this.onChangeValue} />
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>
 					<Col md={5} mdOffset={2}> 
-						<FormGroup controlId={Constants.INPUT_MONAT_AUSGABEN} validationState={this.validateAusgaben()}>
+						<FormGroup controlId="monat_ausgaben" validationState={this.validateAusgaben()}>
 							<ControlLabel>Monatliche Ausgaben</ControlLabel>
-							<FormControl type="text" value={this.state[Constants.INPUT_MONAT_AUSGABEN]} onChange={this.onChangeValue} />
+							<FormControl type="text" value={this.state.monat_ausgaben} onChange={this.onChangeValue} />
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>
 				</Row>
 				<Row>
 					<Col md={5}>
-						<FormGroup controlId={Constants.INPUT_FREI_VERFUEGBAR_ABS} validationState={this.validateVerfuegbaresEinkommen()}>
+						<FormGroup controlId="frei_verfuegbar_abs" validationState={this.validateVerfuegbaresEinkommen()}>
 							<ControlLabel>Frei verfügbares Einkommen</ControlLabel>
-							<FormControl type="text" value={this.state[Constants.INPUT_FREI_VERFUEGBAR_ABS]} onChange={this.onChangeValue} />
+							<FormControl type="text" value={this.state.frei_verfuegbar_abs} onChange={this.onChangeValue} />
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>
 					<Col md={5} mdOffset={2}>
-						<ControlLabel>Slider</ControlLabel>
-						<Slider />
 					</Col>
 				</Row>
 			</Grid>

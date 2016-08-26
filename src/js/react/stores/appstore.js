@@ -1,10 +1,11 @@
 import EventEmitter from "events";
 import AppDispatcher from "dispatcher/appdispatcher";
 import * as Action from "constants/actions";
-import * as Constant from "constants";
 import assign from "object-assign/index";
 
-let values = {};
+let values = {
+	
+};
 
 let AppStore = assign({}, EventEmitter.prototype, {
 	get: function(key) {

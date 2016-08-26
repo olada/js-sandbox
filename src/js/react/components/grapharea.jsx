@@ -36,7 +36,7 @@ var GraphArea = React.createClass({
 
 	onBasiswertChange: function() {
 		let data_cumulative_income = [1, 2, 3, 4, 5].map(val => {
-			return val * parseInt(AppStore.get(Constants.INPUT_MONAT_NETTO));
+			return val * parseInt(AppStore.get("monat_netto"));
 		});
 		this.state.chart_config.series[0].data = data_cumulative_income;
 		this.forceUpdate();
