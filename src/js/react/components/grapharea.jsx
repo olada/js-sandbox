@@ -5,11 +5,11 @@ import _ from "underscore";
 
 import AppStore from "stores/appstore";
 import * as Action from "constants/actions";
-import * as Constants from "constants";
+import * as Constants from "constants/constants";
 
 var series_keys = {
 	einkommen_kumulativ: 0,
-	einkommen_monat: 0
+	einkommen_monat: 1
 }
 
 var GraphArea = React.createClass({
@@ -88,9 +88,12 @@ var GraphArea = React.createClass({
 	},
 
 	updateEinkommenMonatlich: function() {
-		let data_einkommen_monat = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
-		console.log(data_einkommen_monat);
-	},
+		let anzahl_monate = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
+
+		let data_monthly_income = _.range(0, anzahl_monate + 1).map(function(index, value) {
+			return parseInt(AppStore.get('monat_netto'));
+		});
+		this.state.chart_config.series[series_keys.einkommen_monat].data = data_monthly_income;	},
 
 	render: function() {
 		return (
