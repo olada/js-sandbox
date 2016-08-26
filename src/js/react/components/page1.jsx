@@ -134,7 +134,7 @@ var Page1 = React.createClass({
 					<Col md={5}>
 						<FormGroup controlId={Constants.INPUT_CHILDREN}>
 							<ControlLabel>Anzahl Kinder im Haushalt</ControlLabel>
-							<FormControl type="text" value={this.state.children.length} onChange={this.onChangeValue} />
+							<FormControl type="text" onChange={this.onChangeChildren} />
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>

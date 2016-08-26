@@ -60,11 +60,11 @@ AppDispatcher.register(function(payload) {
 			break;
         case Action.MOD_CHILDREN:
             var countChildren = payload.value;
-            var children = {};
+            children = [];
             while (countChildren > 0) {
                 var child = {age: 0};
                 children.push(child);
-                children--;
+                countChildren--;
             }
             AppStore.set('children', children);
             AppStore.emitChange(Action.MOD_CHILDREN);
