@@ -7,6 +7,8 @@ let values = {
 	laufzeit: 0,
 	jahreszins: 0
 };
+let children = {};
+
 
 function validate(key, value) {
 	switch (key) {
@@ -25,6 +27,9 @@ let AppStore = assign({}, EventEmitter.prototype, {
 	getAll: function() {
 		return values;
 	},
+    getChildren: function() {
+        return children;
+    },
 	set: function(key, value) {
 		value = validate(key, value);
 		values[key] = value;
@@ -53,7 +58,19 @@ AppDispatcher.register(function(payload) {
 			AppStore.set(payload.key, payload.value);
 			AppStore.emitChange(Action.MOD_KREDITWERT);
 			break;
+        case Action.MOD_CHILDREN:
+            var countChildren = payload.value;
+            var children = {};
+            while (countChildren > 0) {
+                var child = {age: 0};
+                children.push(child);
+                children--;
+            }
+            AppStore.set('children', children);
+            AppStore.emitChange(Action.MOD_CHILDREN);
+            break;
 	}
 });
 
 export default AppStore;
+

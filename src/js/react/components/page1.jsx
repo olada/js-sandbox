@@ -15,7 +15,7 @@ var Page1 = React.createClass({
 
 	getInitialState: function() {
 		// Initialize states, so we don't get following warning:
-		// FormControl is changing an uncontrolled input of type text to be controlled. 
+		// FormControl is changing an uncontrolled input of type text to be controlled.
 		// Input elements should not switch from uncontrolled to controlled (or vice versa)
 		return {
 			monat_netto: 0,
@@ -23,12 +23,15 @@ var Page1 = React.createClass({
 			frei_verfuegbar_abs: 0,
 			frei_verfuegbar_percent: 0,
 			frei_verfuegbar_max: 0,
-			frei_verfuegbar_set: false
-		}
+			frei_verfuegbar_set: false,
+            children: []
+
+        }
 	},
 
 	componentDidMount: function() {
 		AppStore.addChangeListener(Action.MOD_BASISWERT, this.onBasiswertChange);
+		AppStore.addChangeListener(Action.MOD_CHILDREN, this.onChildrenChange);
 		this.readStates();
 		this.forceUpdate();
 	},
@@ -40,7 +43,7 @@ var Page1 = React.createClass({
 
 	updateFreiVerfuegbar: function() {
 		if (this.state.monat_netto > 0) {
-			this.state.frei_verfuegbar_max = 
+			this.state.frei_verfuegbar_max =
 				this.state.monat_netto - this.state.monat_ausgaben;
 		}
 	},
@@ -50,6 +53,11 @@ var Page1 = React.createClass({
 		this.forceUpdate();
 	},
 
+    onChildrenChange: function(event) {
+		this.setState({children: AppStore.getChildren()});
+        console.log('changedChildren', this.state.children);
+	},
+
 	onChangeValue: function(event) {
 		AppDispatcher.dispatch({
 			action: Action.MOD_BASISWERT,
@@ -57,6 +65,14 @@ var Page1 = React.createClass({
 			value: event.target.value
 		});
 	},
+
+    onChangeChildren: function(event) {
+        AppDispatcher.dispatch({
+            action: Action.MOD_CHILDREN,
+            key: event.target.id,
+            value: event.target.value
+        })
+    },
 
 	validateEinkommen: function() {
 		if (Validator.validatePositiveInteger(this.state.monat_netto)){
@@ -95,7 +111,7 @@ var Page1 = React.createClass({
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>
-					<Col md={5} mdOffset={2}> 
+					<Col md={5} mdOffset={2}>
 						<FormGroup controlId="monat_ausgaben" validationState={this.validateAusgaben()}>
 							<ControlLabel>Monatliche Ausgaben</ControlLabel>
 							<FormControl type="text" value={this.state.monat_ausgaben} onChange={this.onChangeValue} />
@@ -114,9 +130,27 @@ var Page1 = React.createClass({
 					<Col md={5} mdOffset={2}>
 					</Col>
 				</Row>
+				<Row>
+					<Col md={5}>
+						<FormGroup controlId={Constants.INPUT_CHILDREN}>
+							<ControlLabel>Anzahl Kinder im Haushalt</ControlLabel>
+							<FormControl type="text" value={this.state.children.length} onChange={this.onChangeValue} />
+							<FormControl.Feedback />
+						</FormGroup>
+					</Col>
+				</Row>
+				<Row>
+                    {this.state.children.map(function(children, i) {
+                        return (
+                        <div key={i}>
+                            {i}
+                        </div>
+                            );
+                        })}
+				</Row>
 			</Grid>
 		)
 	}
 });
 
-export default Page1; 
+export default Page1;
