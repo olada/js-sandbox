@@ -9,7 +9,8 @@ import * as Constants from "constants/constants";
 
 var series_keys = {
 	einkommen_kumulativ: 0,
-	einkommen_monat: 1
+	einkommen_monat: 1,
+    ausgaben_monat: 2
 }
 
 var GraphArea = React.createClass({
@@ -34,7 +35,12 @@ var GraphArea = React.createClass({
 						type: 'spline',
 						name: 'Einkommen mtl.',
 						data: []
-					}
+					},
+                    {
+                        type: 'spline',
+                        name: 'Ausgaben mtl.',
+                        data: []
+                    }
 				],
 				tooltip: {
 					formatter: function() {
@@ -66,6 +72,7 @@ var GraphArea = React.createClass({
 
 		this.updateEinkommenKumulativ();
 		this.updateEinkommenMonatlich();
+		this.updateAusgabenMonatlich();
 
 		// Set X-Axis maximum
 		this.state.chart_config.xAxis.max = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
@@ -94,6 +101,14 @@ var GraphArea = React.createClass({
 			return parseInt(AppStore.get('monat_netto'));
 		});
 		this.state.chart_config.series[series_keys.einkommen_monat].data = data_monthly_income;	},
+
+	updateAusgabenMonatlich: function() {
+		let anzahl_monate = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
+
+		let data_monthly_ausgaben = _.range(0, anzahl_monate + 1).map(function(index, value) {
+			return parseInt(AppStore.get('monat_ausgaben'));
+		});
+		this.state.chart_config.series[series_keys.ausgaben_monat].data = data_monthly_ausgaben;	},
 
 	render: function() {
 		return (
