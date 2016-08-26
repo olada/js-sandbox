@@ -9,7 +9,7 @@ var Page2 = React.createClass({
 	getInitialState: function() {
 		return {
 			laufzeit: 1,
-			jahreszins: 1
+			jahreszins: 1,
 		}
 	},
 	componentDidMount: function() {
