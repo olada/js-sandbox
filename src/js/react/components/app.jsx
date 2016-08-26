@@ -1,6 +1,6 @@
 import React from "react";
 import {Panel, Nav, NavItem} from "react-bootstrap";
-import {LinkContainer} from "react-router-bootstrap";
+import {Grid, Row, Col, LinkContainer} from "react-router-bootstrap";
 import Page1 from "components/page1";
 import Page2 from "components/page2";
 import GraphArea from "components/grapharea";
@@ -17,8 +17,8 @@ var App = React.createClass({
 	},
 
 	componentWillMount: function() {
-		this.page1Content = <Page1 onFormChange={this.onFormChange} getParentState={this.getParentState} />;
-		this.page2Content = <Page2 onFormChange={this.onFormChange} getParentState={this.getParentState} />;
+		this.page1Content = <Page1 />;
+		this.page2Content = <Page2 />;
 	},
 
 	getParentState: function(key) {
@@ -29,7 +29,7 @@ var App = React.createClass({
 		}
 	},
 
-	handleSelect: function(eventKey) {
+	handleSelect: function(eventKey, event) {
 		this.setState({active: eventKey});
 	},
 
@@ -45,6 +45,7 @@ var App = React.createClass({
 
 		return (
 			<div>
+				<GraphArea />
 				<nav>
 					<Nav bsStyle="pills" activeKey={this.state.active} onSelect={this.handleSelect}>
 						<NavItem eventKey={1}>Basisdaten</NavItem>
@@ -52,9 +53,7 @@ var App = React.createClass({
 					</Nav>
 				</nav>
 				<main>
-					<GraphArea getParentState={this.getParentState} />
-					<br /><br />
-					{ content }
+				{ content }
 				</main>
 			</div>
 		)
