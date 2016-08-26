@@ -2,3 +2,7 @@
 export function validatePositiveInteger(value) {
 	return value >>> 0 === parseFloat(value);
 }
+
+export function validateIntegerNonZero(value) {
+	return validatePositiveInteger(value) && value > 0;
+}

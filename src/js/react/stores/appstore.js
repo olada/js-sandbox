@@ -4,8 +4,19 @@ import * as Action from "constants/actions";
 import assign from "object-assign/index";
 
 let values = {
-	
+	laufzeit: 0,
+	jahreszins: 0
 };
+
+function validate(key, value) {
+	switch (key) {
+		case "laufzeit":
+			if (value > 10) { value = 10; }
+			break;
+	}
+
+	return value;
+}
 
 let AppStore = assign({}, EventEmitter.prototype, {
 	get: function(key) {
@@ -15,7 +26,9 @@ let AppStore = assign({}, EventEmitter.prototype, {
 		return values;
 	},
 	set: function(key, value) {
+		value = validate(key, value);
 		values[key] = value;
+		console.log(values);
 	},
 
 	addChangeListener: function(action, callback) {
@@ -31,14 +44,15 @@ let AppStore = assign({}, EventEmitter.prototype, {
 
 // Register callback to handle all dispatcher updates
 AppDispatcher.register(function(payload) {
-	console.log("registering appstore");
 	switch (payload.action) {
 		case Action.MOD_BASISWERT:
 			AppStore.set(payload.key, payload.value);
 			AppStore.emitChange(Action.MOD_BASISWERT);
 			break;
-		case Action.SOMETHING:
-			AppStore.emitChange(Action.SOMETHING);
+		case Action.MOD_KREDITWERT:
+			AppStore.set(payload.key, payload.value);
+			AppStore.emitChange(Action.MOD_KREDITWERT);
+			break;
 	}
 });
 

@@ -48,8 +48,8 @@ var App = React.createClass({
 				<GraphArea />
 				<nav>
 					<Nav bsStyle="pills" activeKey={this.state.active} onSelect={this.handleSelect}>
-						<NavItem eventKey={1}>Basisdaten</NavItem>
-						<NavItem eventKey={2}>Page 2</NavItem>
+						<NavItem eventKey={1}>Kunden-Basisdaten</NavItem>
+						<NavItem eventKey={2}>Krediteinstellungen</NavItem>
 					</Nav>
 				</nav>
 				<main>

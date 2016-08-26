@@ -36,11 +36,9 @@ var Page1 = React.createClass({
 	readStates: function() {
 		this.state = assign(this.state, AppStore.getAll());
 		this.updateFreiVerfuegbar();
-		console.log(this.state);
 	},
 
 	updateFreiVerfuegbar: function() {
-		console.log("called");
 		if (this.state.monat_netto > 0) {
 			this.state.frei_verfuegbar_max = 
 				this.state.monat_netto - this.state.monat_ausgaben;
