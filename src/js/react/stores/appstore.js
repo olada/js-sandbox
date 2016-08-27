@@ -12,7 +12,7 @@ var values = {
     kreditbetrag: 0,
     tilgungssatz: 2
 };
-let children = {};
+let children = [];
 let calculated = {
     jahreszins: 0,
     tilgungsrate: 0,
@@ -20,6 +20,38 @@ let calculated = {
     rate: 0,
     ausgaben: []
 };
+
+const childCost = [
+    {age: 6, cost: 519},
+    {age: 12, cost: 604},
+    {age: 18, cost: 700}
+];
+
+function updateAusgaben() {
+    let laufzeitMonate = parseInt(values.laufzeit) * 12;
+
+    let ausgaben = _.range(0, laufzeitMonate).map(function(index, value) {
+        let mtlAusgaben = parseInt(values.monat_ausgaben);
+        // check kinder
+        let year = Math.floor(index/12);
+        let totalChildCost = 0;
+        children.forEach(function(children) {
+            var actualAge = parseInt(children.age) + year;
+            for (var costEntry of childCost) {
+                if (actualAge <= costEntry.age) {
+                    totalChildCost += costEntry.cost;
+                    break;
+                }
+            }
+        });
+        mtlAusgaben += totalChildCost;
+
+        return mtlAusgaben;
+    });
+
+    calculated.ausgaben = ausgaben;
+}
+
 
 function updateCalculatedValues() {
     let zinsfaktor = Math.pow(parseInt(values.jahreszins) / 100 + 1, 1/12);
@@ -30,13 +62,6 @@ function updateCalculatedValues() {
     let totalKreditBetrag = rate * laufzeitMonate;
     let tilgungsrate = values.tilgungssatz;
 
-    let ausgaben = _.range(0, laufzeitMonate).map(function(index, value) {
-        let mtlAusgaben = parseInt(values.monat_ausgaben);
-        // check kinder
-        return mtlAusgaben;
-    });
-
-    calculated.ausgaben = ausgaben;
     calculated.gesamtKreditBetrag = totalKreditBetrag;
     calculated.rate = rate;
 	calculated.zinsfaktor = zinsfaktor;
@@ -89,6 +114,7 @@ AppDispatcher.register(function(payload) {
 	switch (payload.action) {
 		case Action.MOD_BASISWERT:
 			AppStore.set(payload.key, payload.value);
+            updateAusgaben();
 			AppStore.emitChange(Action.MOD_BASISWERT);
 			break;
 		case Action.MOD_KREDITWERT:
@@ -105,6 +131,7 @@ AppDispatcher.register(function(payload) {
                 countChildren--;
             }
             AppStore.set('children', children);
+            updateCalculatedValues();
             AppStore.emitChange(Action.MOD_CHILDREN);
             break;
         case Action.MOD_CHILDREN_AGE:

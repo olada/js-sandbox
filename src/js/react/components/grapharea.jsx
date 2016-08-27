@@ -140,10 +140,10 @@ var GraphArea = React.createClass({
     updateKreditbetrag: function() {
         let anzahl_monate = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
         let kreditbetrag = AppStore.getCalculated("gesamtKreditBetrag");
-        let tilgungsrate = AppStore.getCalculated("rate");
+        let rate = AppStore.getCalculated("rate");
 
         let data_monthly_Kreditbetrag = _.range(0, anzahl_monate).map(function(index, value) {
-            return kreditbetrag - (index*tilgungsrate);
+            return kreditbetrag - (index*rate);
         });
         this.state.chart_config.series[series_keys.kreditbetrag].data = data_monthly_Kreditbetrag;	},
 
