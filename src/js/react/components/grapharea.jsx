@@ -92,13 +92,19 @@ var GraphArea = React.createClass({
 		this.updateAusgabenMonatlich();
         this.updateKreditbetrag();
 
+        let that = this;
+
         let monate_anzahl = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
 
 		// Set X-Axis maximum
 		this.state.chart_config.xAxis.max = monate_anzahl;
 
 		// Update vertical plot lines for years
-		this.state.chart_config.xAxis.plotLines = [{width: 1, color: '#999', value: 2}, {value: 4}, {value: 6}];
+		let firstXLine = 12 - date.getMonth();
+		this.state.chart_config.xAxis.plotLines = [];
+		_.range(firstXLine, monate_anzahl, 12).forEach(function(val) {
+			that.state.chart_config.xAxis.plotLines.push({width: 1, color: '#999', value: val});
+		});
 
 		this.forceUpdate();
 	},
