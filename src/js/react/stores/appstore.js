@@ -33,7 +33,6 @@ let AppStore = assign({}, EventEmitter.prototype, {
 	set: function(key, value) {
 		value = validate(key, value);
 		values[key] = value;
-		console.log(values);
 	},
     setChildAge: function(index, value) {
         children[index].age = value;
@@ -72,7 +71,6 @@ AppDispatcher.register(function(payload) {
             AppStore.emitChange(Action.MOD_CHILDREN);
             break;
         case Action.MOD_CHILDREN_AGE:
-            console.log(payload);
             AppStore.setChildAge(payload.index, payload.age);
             AppStore.emitChange(Action.MOD_CHILDREN);
             break;
