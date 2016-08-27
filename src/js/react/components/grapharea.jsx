@@ -148,9 +148,21 @@ var GraphArea = React.createClass({
         let anzahl_monate = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
         let kreditbetrag = AppStore.getCalculated("gesamtKreditBetrag");
         let rate = AppStore.getCalculated("rate");
+        let that = this;
 
         let data_monthly_Kreditbetrag = _.range(0, anzahl_monate).map(function(index, value) {
-            return kreditbetrag - (index*rate);
+            if (that.state.chart_config.series[series_keys.ausgaben_monat].data[index] >
+            	that.state.chart_config.series[series_keys.einkommen_monat].data[index]) {
+            	return {
+            		y: kreditbetrag - (index * rate),
+            		color: '#c00'
+            	}
+            } else {
+            	return {
+            		y: kreditbetrag - (index * rate)
+            	}
+            }
+            //return kreditbetrag - (index*rate);
         });
         this.state.chart_config.series[series_keys.kreditbetrag].data = data_monthly_Kreditbetrag;	},
 
