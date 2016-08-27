@@ -32,7 +32,6 @@ var Page1 = React.createClass({
 
 	componentDidMount: function() {
 		AppStore.addChangeListener(Action.MOD_BASISWERT, this.onBasiswertChange);
-		AppStore.addChangeListener(Action.MOD_CHILDREN, this.onChildrenChange);
 		this.readStates();
 		this.forceUpdate();
 	},
