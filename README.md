@@ -10,5 +10,5 @@ Playing around with Javascript stuff.
 * `git clone this repo`
 * navigate to repo, then:
 * `npm install`
-* `gulp serve-and-build`
-* Navigate to <http://localhost.com:1337>
+* `gulp build-and-serve`
+* Navigate to <http://localhost:1337>
