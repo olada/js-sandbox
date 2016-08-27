@@ -19,10 +19,12 @@ var ausgaben = [];
 function updateCalculatedValues() {
     let zinsfaktor = Math.pow(parseInt(values.jahreszins) / 100 + 1, 1/12);
     let laufzeitMonate = parseInt(values.laufzeit) * 12;
-    let rate = 200; //komplizierte Rechnung ;)
-    let gesamtKreditBetrag = rate * laufzeitMonate;
+    let rate = parseFloat(values.kreditbetrag) *
+    			parseFloat(Math.pow(zinsfaktor, laufzeitMonate)) / parseFloat(Math.pow(zinsfaktor, laufzeitMonate) - 1) *
+    			parseFloat(zinsfaktor - 1);
+    let totalKreditBetrag = rate * laufzeitMonate;
 
-    calculated.gesamtKreditBetrag = gesamtKreditBetrag;
+    calculated.gesamtKreditBetrag = totalKreditBetrag;
     calculated.rate = rate;
 	calculated.zinsfaktor = zinsfaktor;
 }
