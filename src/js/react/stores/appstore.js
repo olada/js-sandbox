@@ -77,7 +77,6 @@ AppDispatcher.register(function(payload) {
             AppStore.emitChange(Action.MOD_CHILDREN);
             break;
         case Action.MOD_CHILDREN_AGE:
-            console.log(payload);
             AppStore.setChildAge(payload.index, payload.age);
             AppStore.emitChange(Action.MOD_CHILDREN);
             break;

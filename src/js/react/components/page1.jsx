@@ -9,7 +9,8 @@ import * as Action from "constants/actions";
 import * as Constants from "constants/constants";
 import * as Validator from "util/validators";
 
-import App from "components/app"
+import App from "components/app";
+import Children from "components/children";
 
 var Page1 = React.createClass({
 
@@ -51,11 +52,6 @@ var Page1 = React.createClass({
 	onBasiswertChange: function() {
 		this.readStates();
 		this.forceUpdate();
-	},
-
-    onChildrenChange: function(event) {
-		this.setState({children: AppStore.getChildren()});
-        console.log('children', AppStore.getChildren());
 	},
 
 	onChangeValue: function(event) {
@@ -176,6 +172,7 @@ var Page1 = React.createClass({
                         })}
                     </Col>
 				</Row>
+                <Children></Children>
 			</Grid>
 		)
 	}
