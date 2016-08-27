@@ -1,5 +1,7 @@
 import EventEmitter from "events";
 import AppDispatcher from "dispatcher/appdispatcher";
+import _ from "underscore";
+
 
 import * as Action from "constants/actions";
 import assign from "object-assign/index";
@@ -7,14 +9,17 @@ import assign from "object-assign/index";
 var values = {
 	laufzeit: 0,
 	jahreszins: 0,
-    kreditbetrag: 0
+    kreditbetrag: 0,
+    tilgungssatz: 2
 };
 let children = {};
 let calculated = {
     jahreszins: 0,
-    tilgungsrate: 0
+    tilgungsrate: 0,
+    zinsfaktor: 0,
+    rate: 0,
+    ausgaben: []
 };
-var ausgaben = [];
 
 function updateCalculatedValues() {
     let zinsfaktor = Math.pow(parseInt(values.jahreszins) / 100 + 1, 1/12);
@@ -23,7 +28,15 @@ function updateCalculatedValues() {
     			parseFloat(Math.pow(zinsfaktor, laufzeitMonate)) / parseFloat(Math.pow(zinsfaktor, laufzeitMonate) - 1) *
     			parseFloat(zinsfaktor - 1);
     let totalKreditBetrag = rate * laufzeitMonate;
+    let tilgungsrate = values.tilgungssatz;
 
+    let ausgaben = _.range(0, laufzeitMonate).map(function(index, value) {
+        let mtlAusgaben = parseInt(values.monat_ausgaben);
+        // check kinder
+        return mtlAusgaben;
+    });
+
+    calculated.ausgaben = ausgaben;
     calculated.gesamtKreditBetrag = totalKreditBetrag;
     calculated.rate = rate;
 	calculated.zinsfaktor = zinsfaktor;

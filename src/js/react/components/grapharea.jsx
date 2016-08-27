@@ -113,10 +113,9 @@ var GraphArea = React.createClass({
 		let anzahl_monate = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
 
 		// + 1, weil das Array bei 0 beginnt
-		let data_cumulative_income = _.range(0, anzahl_monate + 1).map(function(index, value) {
+		let data_cumulative_income = _.range(0, anzahl_monate).map(function(index, value) {
 			let item = Math.floor(
 				value * parseInt(AppStore.get("monat_netto"))
-					  * Math.pow(AppStore.get("jahreszins") / 100 + 1, index)
 			);
 			return item;
 		});
@@ -126,7 +125,7 @@ var GraphArea = React.createClass({
 	updateEinkommenMonatlich: function() {
 		let anzahl_monate = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
 
-		let data_monthly_income = _.range(0, anzahl_monate + 1).map(function(index, value) {
+		let data_monthly_income = _.range(0, anzahl_monate).map(function(index, value) {
 			return parseInt(AppStore.get('monat_netto'));
 		});
 		this.state.chart_config.series[series_keys.einkommen_monat].data = data_monthly_income;	},
@@ -134,9 +133,8 @@ var GraphArea = React.createClass({
 	updateAusgabenMonatlich: function() {
 		let anzahl_monate = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
 
-		let data_monthly_ausgaben = _.range(0, anzahl_monate + 1).map(function(index, value) {
-			return parseInt(AppStore.get('monat_ausgaben'));
-		});
+		let data_monthly_ausgaben = AppStore.getCalculated("ausgaben");
+
 		this.state.chart_config.series[series_keys.ausgaben_monat].data = data_monthly_ausgaben;	},
 
     updateKreditbetrag: function() {
@@ -144,7 +142,7 @@ var GraphArea = React.createClass({
         let kreditbetrag = AppStore.getCalculated("gesamtKreditBetrag");
         let tilgungsrate = AppStore.getCalculated("rate");
 
-        let data_monthly_Kreditbetrag = _.range(0, anzahl_monate + 1).map(function(index, value) {
+        let data_monthly_Kreditbetrag = _.range(0, anzahl_monate).map(function(index, value) {
             return kreditbetrag - (index*tilgungsrate);
         });
         this.state.chart_config.series[series_keys.kreditbetrag].data = data_monthly_Kreditbetrag;	},
