@@ -8,8 +8,9 @@ import * as Validator from "util/validators"
 var Page2 = React.createClass({
 	getInitialState: function() {
 		return {
-			laufzeit: 1,
-			jahreszins: 1,
+			laufzeit: 5,
+			jahreszins: 2,
+            kreditbetrag: 10000
 		}
 	},
 	componentDidMount: function() {
@@ -33,12 +34,17 @@ var Page2 = React.createClass({
 	onKreditwertChange: function() {
 		this.state.laufzeit = AppStore.get("laufzeit");
 		this.state.jahreszins = AppStore.get("jahreszins");
+        this.state.kreditbetrag = AppStore.get("kreditbetrag");
 		this.forceUpdate();
 	},
 
 	validateLaufzeit: function() {
 		return (Validator.validateIntegerNonZero(this.state.laufzeit)) ? "success" : "error";
 	},
+
+    validateKreditbetrag: function() {
+        return (Validator.validateIntegerNonZero(this.state.kreditbetrag)) ? "success" : "error";
+    },
 
 	validateZins: function() {
 		if (this.state.jahreszins >= 0) {
@@ -63,6 +69,15 @@ var Page2 = React.createClass({
 						<FormGroup controlId="jahreszins" validationState={this.validateZins()}>
 							<ControlLabel>Jahreszins (in %)</ControlLabel>
 							<FormControl type="text" value={this.state.jahreszins} onChange={this.onChangeValue} />
+							<FormControl.Feedback />
+						</FormGroup>
+					</Col>
+				</Row>
+				<Row>
+					<Col md={5}>
+						<FormGroup controlId="kreditbetrag" validationState={this.validateKreditbetrag()}>
+							<ControlLabel>Kreditbetrag</ControlLabel>
+							<FormControl type="text" value={this.state.kreditbetrag} onChange={this.onChangeValue} />
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>

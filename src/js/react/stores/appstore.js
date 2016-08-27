@@ -6,14 +6,25 @@ import assign from "object-assign/index";
 
 var values = {
 	laufzeit: 0,
-	jahreszins: 0
+	jahreszins: 0,
+    kreditbetrag: 0
 };
 let children = {};
-let calculated = {};
+let calculated = {
+    jahreszins: 0,
+    tilgungsrate: 0
+};
 var ausgaben = [];
 
 function updateCalculatedValues() {
-	calculated.zinsfaktor = Math.pow(parseInt(values.jahreszins) / 100 + 1, 1/12);
+    let zinsfaktor = Math.pow(parseInt(values.jahreszins) / 100 + 1, 1/12);
+    let laufzeitMonate = parseInt(values.laufzeit) * 12;
+    let rate = 200; //komplizierte Rechnung ;)
+    let gesamtKreditBetrag = rate * laufzeitMonate;
+
+    calculated.gesamtKreditBetrag = gesamtKreditBetrag;
+    calculated.rate = rate;
+	calculated.zinsfaktor = zinsfaktor;
 }
 
 function validate(key, value) {

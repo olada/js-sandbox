@@ -10,7 +10,8 @@ import * as Constants from "constants/constants";
 var series_keys = {
 	einkommen_kumulativ: 0,
 	einkommen_monat: 1,
-    ausgaben_monat: 2
+    ausgaben_monat: 2,
+    kreditbetrag: 3,
 }
 
 var GraphArea = React.createClass({
@@ -43,6 +44,11 @@ var GraphArea = React.createClass({
                         name: 'Ausgaben mtl.',
                         data: [],
                         color: '#c00'
+                    },
+                    {
+                        type: 'spline',
+                        name: 'Kreditbetrag mtl.',
+                        data: []
                     }
 				],
 				tooltip: {
@@ -76,6 +82,7 @@ var GraphArea = React.createClass({
 		this.updateEinkommenKumulativ();
 		this.updateEinkommenMonatlich();
 		this.updateAusgabenMonatlich();
+        this.updateKreditbetrag();
 
 		// Set X-Axis maximum
 		this.state.chart_config.xAxis.max = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
@@ -112,6 +119,16 @@ var GraphArea = React.createClass({
 			return parseInt(AppStore.get('monat_ausgaben'));
 		});
 		this.state.chart_config.series[series_keys.ausgaben_monat].data = data_monthly_ausgaben;	},
+
+    updateKreditbetrag: function() {
+        let anzahl_monate = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
+        let kreditbetrag = AppStore.getCalculated("gesamtKreditBetrag");
+        let tilgungsrate = AppStore.getCalculated("rate");
+
+        let data_monthly_Kreditbetrag = _.range(0, anzahl_monate + 1).map(function(index, value) {
+            return kreditbetrag - (index*tilgungsrate);
+        });
+        this.state.chart_config.series[series_keys.kreditbetrag].data = data_monthly_Kreditbetrag;	},
 
 	render: function() {
 		return (
