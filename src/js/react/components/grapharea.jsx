@@ -7,6 +7,8 @@ import AppStore from "stores/appstore";
 import * as Action from "constants/actions";
 import * as Constants from "constants/constants";
 
+let date = new Date();
+
 var series_keys = {
 	einkommen_kumulativ: 0,
 	einkommen_monat: 1,
@@ -53,7 +55,12 @@ var GraphArea = React.createClass({
 				],
 				tooltip: {
 					formatter: function() {
-						return "Monat " + this.x + "<br />Geld: <strong>" + this.y + "€</strong>";
+						let monatOfYear = (date.getMonth() + this.x) % 12;
+						let yearOffset = Math.floor((date.getMonth() + this.x) / 12);
+
+						let monat = Constants.MONTHS[monatOfYear];
+						let year = date.getFullYear() + yearOffset;
+						return monat + " " + year + "<br />Geld: <strong>" + this.y + "€</strong>";
 					}
 				},
 				xAxis: {
@@ -61,7 +68,8 @@ var GraphArea = React.createClass({
 					max: 1,
 					title: {
 						text: 'Monate'
-					}
+					},
+					plotLines: []
 				}
 			}
 		};
@@ -84,8 +92,13 @@ var GraphArea = React.createClass({
 		this.updateAusgabenMonatlich();
         this.updateKreditbetrag();
 
+        let monate_anzahl = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
+
 		// Set X-Axis maximum
-		this.state.chart_config.xAxis.max = parseInt(AppStore.get("laufzeit")) * Constants.MONTHS_IN_YEAR;
+		this.state.chart_config.xAxis.max = monate_anzahl;
+
+		// Update vertical plot lines for years
+		this.state.chart_config.xAxis.plotLines = [{width: 1, color: '#999', value: 2}, {value: 4}, {value: 6}];
 
 		this.forceUpdate();
 	},
