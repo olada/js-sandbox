@@ -143,36 +143,16 @@ var Page1 = React.createClass({
 				</Row>
 				<Row>
 					<Col md={5}>
-						<FormGroup controlId={Constants.INPUT_CHILDREN}>
-							<ControlLabel>Anzahl Kinder im Haushalt</ControlLabel>
-							<FormControl type="text" value={this.state.children.length} onChange={this.onChangeChildren} />
-							<FormControl.Feedback />
-						</FormGroup>
-					</Col>
-					<Col md={5} mdOffset={2}>
 						<FormGroup controlId="ausgaben_nebenkosten" validationState={this.validateIntegerNonZero(this.state.ausgaben_nebenkosten)}>
 							<ControlLabel>Ausgaben: Nebenkosten</ControlLabel>
 							<FormControl type="text" value={this.state.ausgaben_nebenkosten} onChange={this.onChangeValue} />
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>
+					<Col md={5} mdOffset={2}>
+                		<Children></Children>
+                	</Col>
 				</Row>
-				<Row>
-                    <Col md={5} mdOffset={1}>
-                    {this.state.children.map(function(children, i) {
-                        return (
-                            <Row key={'Child'+i}>
-                                    <FormGroup controlId={i.toString()}>
-                                        <ControlLabel>Alter Kind {i+1}</ControlLabel>
-                                        <FormControl type="text" value={children.age} onChange={that.onChangeChildAge} />
-                                        <FormControl.Feedback />
-                                    </FormGroup>
-                            </Row>
-                            );
-                        })}
-                    </Col>
-				</Row>
-                <Children></Children>
 			</Grid>
 		)
 	}
