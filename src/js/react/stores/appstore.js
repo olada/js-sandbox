@@ -9,9 +9,11 @@ var values = {
 	jahreszins: 0
 };
 let children = {};
+let calculated = {};
 var ausgaben = [];
 
-function updateStoreValues() {
+function updateCalculatedValues() {
+	calculated.zinsfaktor = Math.pow(parseInt(values.jahreszins) / 100 + 1, 1/12);
 }
 
 function validate(key, value) {
@@ -28,6 +30,9 @@ let AppStore = assign({}, EventEmitter.prototype, {
 	get: function(key) {
 		return values[key];
 	},
+	getCalculated: function(key) {
+		return calculated[key];
+	},
 	getAll: function() {
 		return values;
 	},
@@ -37,7 +42,6 @@ let AppStore = assign({}, EventEmitter.prototype, {
 	set: function(key, value) {
 		value = validate(key, value);
 		values[key] = value;
-		updateStoreValues();
 		console.log(values);
 	},
     setChildAge: function(index, value) {
@@ -63,6 +67,7 @@ AppDispatcher.register(function(payload) {
 			break;
 		case Action.MOD_KREDITWERT:
 			AppStore.set(payload.key, payload.value);
+			updateCalculatedValues();
 			AppStore.emitChange(Action.MOD_KREDITWERT);
 			break;
         case Action.MOD_CHILDREN:
