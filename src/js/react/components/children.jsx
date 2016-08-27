@@ -9,8 +9,6 @@ import * as Action from "constants/actions";
 import * as Constants from "constants/constants";
 import * as Validator from "util/validators";
 
-import App from "components/app";
-
 var Children = React.createClass({
 
     getInitialState: function () {
@@ -26,6 +24,7 @@ var Children = React.createClass({
 
     componentDidMount: function () {
         AppStore.addChangeListener(Action.MOD_CHILDREN, this.onChildrenChange);
+        this.setState({children: AppStore.getChildren()});
         this.forceUpdate();
     },
 

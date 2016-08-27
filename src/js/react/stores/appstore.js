@@ -120,6 +120,7 @@ AppDispatcher.register(function(payload) {
 		case Action.MOD_KREDITWERT:
 			AppStore.set(payload.key, payload.value);
 			updateCalculatedValues();
+			updateAusgaben();
 			AppStore.emitChange(Action.MOD_KREDITWERT);
 			break;
         case Action.MOD_CHILDREN:
@@ -132,10 +133,13 @@ AppDispatcher.register(function(payload) {
             }
             AppStore.set('children', children);
             updateCalculatedValues();
+            updateAusgaben();
             AppStore.emitChange(Action.MOD_CHILDREN);
             break;
         case Action.MOD_CHILDREN_AGE:
             AppStore.setChildAge(payload.index, payload.age);
+            updateCalculatedValues();
+            updateAusgaben();
             AppStore.emitChange(Action.MOD_CHILDREN);
             break;
 	}

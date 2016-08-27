@@ -78,11 +78,13 @@ var GraphArea = React.createClass({
 	componentWillUnmount: function() {
 		AppStore.removeChangeListener(Action.MOD_BASISWERT, this.onChange);
 		AppStore.removeChangeListener(Action.MOD_KREDITWERT, this.onChange);
+		AppStore.removeChangeListener(Action.MOD_CHILDREN, this.onChange);
 	},
 
 	componentDidMount: function() {
 		AppStore.addChangeListener(Action.MOD_BASISWERT, this.onChange);
 		AppStore.addChangeListener(Action.MOD_KREDITWERT, this.onChange);
+		AppStore.addChangeListener(Action.MOD_CHILDREN, this.onChange);
 	},
 
 	onChange: function() {
@@ -103,7 +105,11 @@ var GraphArea = React.createClass({
 		let firstXLine = 12 - date.getMonth();
 		this.state.chart_config.xAxis.plotLines = [];
 		_.range(firstXLine, monate_anzahl, 12).forEach(function(val) {
-			that.state.chart_config.xAxis.plotLines.push({width: 1, color: '#999', value: val});
+			that.state.chart_config.xAxis.plotLines.push({
+				width: 1, 
+				color: '#999', 
+				value: val
+			});
 		});
 
 		this.forceUpdate();
