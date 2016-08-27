@@ -32,7 +32,7 @@ function updateCalculatedValues() {
 function validate(key, value) {
 	switch (key) {
 		case "laufzeit":
-			if (value > 10) { value = 10; }
+			if (value > 50) { value = 50; }
 			break;
 	}
 
