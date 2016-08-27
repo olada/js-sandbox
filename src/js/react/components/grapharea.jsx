@@ -33,7 +33,8 @@ var GraphArea = React.createClass({
 					    type: 'spline',
 					    name: 'Einkommen kum.',
 					    data: [],
-					    color: '#0c0'
+					    color: '#0c0',
+					    visible: false
 					},
 					{
 						type: 'spline',
