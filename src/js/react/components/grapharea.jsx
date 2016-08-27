@@ -29,22 +29,25 @@ var GraphArea = React.createClass({
 				  	{
 					    type: 'spline',
 					    name: 'Einkommen kum.',
-					    data: []
+					    data: [],
+					    color: '#0c0'
 					},
 					{
 						type: 'spline',
 						name: 'Einkommen mtl.',
-						data: []
+						data: [],
+						color: '#9f6'
 					},
                     {
                         type: 'spline',
                         name: 'Ausgaben mtl.',
-                        data: []
+                        data: [],
+                        color: '#c00'
                     }
 				],
 				tooltip: {
 					formatter: function() {
-						return "Monat " + this.x;
+						return "Monat " + this.x + "<br />Geld: <strong>" + this.y + "€</strong>";
 					}
 				},
 				xAxis: {

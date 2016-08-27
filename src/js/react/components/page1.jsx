@@ -82,22 +82,22 @@ var Page1 = React.createClass({
         })
     },
 
-	validateEinkommen: function() {
-		if (Validator.validatePositiveInteger(this.state.monat_netto)){
+	validateIntegerNonZero: function(value) {
+		if (Validator.validateIntegerNonZero(value)){
 			return "success";
 		} else {
 			return "error";
 		}
 	},
 
-	validateAusgaben: function() {
+	/*validateAusgaben: function() {
 		if (Validator.validatePositiveInteger(this.state.monat_ausgaben) &&
 			parseInt(this.state.monat_ausgaben) <= parseInt(this.state.monat_netto)){
 			return "success";
 		} else {
 			return "error";
 		}
-	},
+	},*/
 
 	validateVerfuegbaresEinkommen: function() {
 		if (Validator.validatePositiveInteger(this.state.frei_verfuegbar_abs)
@@ -115,14 +115,14 @@ var Page1 = React.createClass({
 			<Grid>
 				<Row>
 					<Col md={5}>
-						<FormGroup controlId="monat_netto" validationState={this.validateEinkommen()}>
+						<FormGroup controlId="monat_netto" validationState={this.validateIntegerNonZero(this.state.monat_netto)}>
 							<ControlLabel>Monatliches Einkommen</ControlLabel>
 							<FormControl type="text" value={this.state.monat_netto} onChange={this.onChangeValue} />
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>
 					<Col md={5} mdOffset={2}>
-						<FormGroup controlId="monat_ausgaben" validationState={this.validateAusgaben()}>
+						<FormGroup controlId="monat_ausgaben" validationState={this.validateIntegerNonZero(this.state.monat_ausgaben)}>
 							<ControlLabel>Monatliche Ausgaben</ControlLabel>
 							<FormControl type="text" value={this.state.monat_ausgaben} onChange={this.onChangeValue} />
 							<FormControl.Feedback />
@@ -138,6 +138,11 @@ var Page1 = React.createClass({
 						</FormGroup>
 					</Col>
 					<Col md={5} mdOffset={2}>
+						<FormGroup controlId="ausgaben_wohnung" validationState={this.validateIntegerNonZero(this.state.ausgaben_wohnung)}>
+							<ControlLabel>Ausgaben: Wohnung</ControlLabel>
+							<FormControl type="text" value={this.state.ausgaben_wohnung} onChange={this.onChangeValue} />
+							<FormControl.Feedback />
+						</FormGroup>
 					</Col>
 				</Row>
 				<Row>
@@ -145,6 +150,13 @@ var Page1 = React.createClass({
 						<FormGroup controlId={Constants.INPUT_CHILDREN}>
 							<ControlLabel>Anzahl Kinder im Haushalt</ControlLabel>
 							<FormControl type="text" value={this.state.children.length} onChange={this.onChangeChildren} />
+							<FormControl.Feedback />
+						</FormGroup>
+					</Col>
+					<Col md={5} mdOffset={2}>
+						<FormGroup controlId="ausgaben_nebenkosten" validationState={this.validateIntegerNonZero(this.state.ausgaben_nebenkosten)}>
+							<ControlLabel>Ausgaben: Nebenkosten</ControlLabel>
+							<FormControl type="text" value={this.state.ausgaben_nebenkosten} onChange={this.onChangeValue} />
 							<FormControl.Feedback />
 						</FormGroup>
 					</Col>

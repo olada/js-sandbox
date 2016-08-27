@@ -1,14 +1,18 @@
 import EventEmitter from "events";
 import AppDispatcher from "dispatcher/appdispatcher";
+
 import * as Action from "constants/actions";
 import assign from "object-assign/index";
 
-let values = {
+var values = {
 	laufzeit: 0,
 	jahreszins: 0
 };
 let children = {};
+var ausgaben = [];
 
+function updateStoreValues() {
+}
 
 function validate(key, value) {
 	switch (key) {
@@ -33,6 +37,7 @@ let AppStore = assign({}, EventEmitter.prototype, {
 	set: function(key, value) {
 		value = validate(key, value);
 		values[key] = value;
+		updateStoreValues();
 		console.log(values);
 	},
     setChildAge: function(index, value) {
