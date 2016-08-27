@@ -8,6 +8,7 @@ Playing around with Javascript stuff.
 * `npm install webpack -g`
 * `npm install webpack-dev-server -g`
 * `git clone this repo`
+* navigate to repo, then:
 * `npm install`
 * `gulp serve-and-build`
 * Navigate to <http://localhost.com:1337>
