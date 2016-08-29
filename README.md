@@ -1,19 +1,19 @@
 # JS-SANDBOX
-Playing around with Javascript stuff.
+Javascript-Spielereien.
 
 
 ## Start der Webanwendung:
 Grundsätzlich gilt: Falls eine der folgenden Anweisungen auf Anhieb mit einem Fehler abbricht, einfach nochmal ausführen.
 
-* Install node (e.g. version 2.15.8)
+* Node installieren (bspw. Version 2.15.8)
 * `npm install gulp -g`
 * `npm install webpack -g`
 * `npm install webpack-dev-server -g`
 * `git clone this repo`
-* navigate to repo, then:
+* Ins geklonte Repo navigieren, danach:
 * `npm install`
 * `gulp build-and-serve`
-* Navigate to <http://localhost:1337>
+* Browser öffnen und folgende URL aufrufen: <http://localhost:1337>
 
 ## Beispiel:
 Die Webanwendung zeigt einen Graphen (zu Beginn leer), sowie einige Eingabemasken. Folgende Werte generieren einen Graphen:
