@@ -31,7 +31,7 @@ Tab Krediteinstellungen:
 * Kreditbetrag: 7000
 
 Folgender Graph sollte zu sehen sein:
-(https://github.com/olada/js-sandbox/raw/master/docs/graph1.png)
+![Graph](https://github.com/olada/js-sandbox/raw/master/docs/graph1.png)
 
 Der Graph zeigt drei Linien:
 - grün: monatliches Einkommen (durchgezogene Linie, da es nur ein Eingabefeld gibt)
